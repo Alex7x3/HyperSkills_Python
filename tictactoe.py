@@ -22,6 +22,8 @@ def check(field):
     else:
         return 4
 
+def move(coord):
+    None
 
 answer = ['Impossible', 'X wins', 'O wins', 'Game not finished', 'Draw']
 result = 0
@@ -33,6 +35,20 @@ print('|', ' '.join(cells_list[0]), '|')
 print('|', ' '.join(cells_list[1]), '|')
 print('|', ' '.join(cells_list[2]), '|')
 print(line)
+'''
 if abs(cells.count('X') - cells.count('O')) < 2:
     result = check(cells_list)
 print(answer[result])
+'''
+while True:
+    coords = input('Enter the coordinates: ').split()
+    if coords[0].isdigit() and coords[1].isdigit():
+        if int(coords[0]) <= 3 and int(coords[1]) <= 3 and int(coords[0]) > 0 and int(coords[1]) > 0:
+            move(coords)
+            break
+        else:
+            print('Coordinates should be from 1 to 3!')
+    else:
+        print('You should enter numbers!')
+
+
