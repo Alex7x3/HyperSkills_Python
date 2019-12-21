@@ -33,35 +33,41 @@ def check(field):
 
 def move(coord):
     global cells_list
+    global translate
     c = translate.get(''.join(coord))
     if cells_list[c[0]][c[1]] == ' ':
         cells_list[c[0]][c[1]] = 'X'
-    else:
-        print('This cell is occupied! Choose another one!')
+        return True
+    return False
 
 
 answer = ['Impossible', 'X wins', 'O wins', 'Game not finished', 'Draw']
 result = 0
+translate = {'11': [2, 0], '12': [1, 0], '13': [0, 0],
+             '21': [2, 1], '22': [1, 1], '23': [0, 1],
+             '31': [2, 2], '32': [1, 2], '33': [0, 2]}
+# while True:
 cells = input('Enter cells: ')
+#    if cells == '0':
+#        break
 cells = cells.replace('_', ' ')
 cells_list = [[c for c in cells[:3]], [c for c in cells[3:6]], [c for c in cells[6:]]]
 draw(cells_list)
 '''
-if abs(cells.count('X') - cells.count('O')) < 2:
-    result = check(cells_list)
-print(answer[result])
+    if abs(cells.count('X') - cells.count('O')) < 2:
+        result = check(cells_list)
+    print(answer[result])
 '''
-translate = {'11': [2, 0], '12': [1, 0], '13': [0, 0],
-             '21': [2, 1], '22': [1, 1], '23': [0, 1],
-             '31': [2, 2], '32': [1, 2], '33': [0, 2]}
 while True:
     coords = input('Enter the coordinates: ').split()
     if coords[0].isdigit() and coords[1].isdigit():
         if 3 >= int(coords[0]) > 0 and 3 >= int(coords[1]) > 0:
-            move(coords)
-            break
+            if move(coords):
+                draw(cells_list)
+                break
+            else:
+                print('This cell is occupied! Choose another one!')
         else:
             print('Coordinates should be from 1 to 3!')
     else:
         print('You should enter numbers!')
-draw(cells_list)
