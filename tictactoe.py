@@ -1,3 +1,12 @@
+def draw(field):
+    line = '-' * 9
+    print(line)
+    print('|', ' '.join(field[0]), '|')
+    print('|', ' '.join(field[1]), '|')
+    print('|', ' '.join(field[2]), '|')
+    print(line)
+
+
 def check(field):
 
     def line(char):
@@ -11,44 +20,48 @@ def check(field):
 
     x_raw = line('X')
     o_raw = line('O')
-    if x_raw == True and o_raw == True:
+    if x_raw and o_raw:
         return 0
     elif x_raw:
         return 1
     elif o_raw:
         return 2
-    elif ''.join([c for string in field for c in string]).find('_') > 0:
+    elif ''.join([c for string in field for c in string]).find(' '):
         return 3
     else:
         return 4
 
 def move(coord):
-    None
+    global cells_list
+    c = translate.get(''.join(coord))
+    if cells_list[c[0]][c[1]] == ' ':
+        cells_list[c[0]][c[1]] = 'X'
+    else:
+        print('This cell is occupied! Choose another one!')
+
 
 answer = ['Impossible', 'X wins', 'O wins', 'Game not finished', 'Draw']
 result = 0
 cells = input('Enter cells: ')
-line = '-' * 9
+cells = cells.replace('_', ' ')
 cells_list = [[c for c in cells[:3]], [c for c in cells[3:6]], [c for c in cells[6:]]]
-print(line)
-print('|', ' '.join(cells_list[0]), '|')
-print('|', ' '.join(cells_list[1]), '|')
-print('|', ' '.join(cells_list[2]), '|')
-print(line)
+draw(cells_list)
 '''
 if abs(cells.count('X') - cells.count('O')) < 2:
     result = check(cells_list)
 print(answer[result])
 '''
+translate = {'11': [2, 0], '12': [1, 0], '13': [0, 0],
+             '21': [2, 1], '22': [1, 1], '23': [0, 1],
+             '31': [2, 2], '32': [1, 2], '33': [0, 2]}
 while True:
     coords = input('Enter the coordinates: ').split()
     if coords[0].isdigit() and coords[1].isdigit():
-        if int(coords[0]) <= 3 and int(coords[1]) <= 3 and int(coords[0]) > 0 and int(coords[1]) > 0:
+        if 3 >= int(coords[0]) > 0 and 3 >= int(coords[1]) > 0:
             move(coords)
             break
         else:
             print('Coordinates should be from 1 to 3!')
     else:
         print('You should enter numbers!')
-
-
+draw(cells_list)
